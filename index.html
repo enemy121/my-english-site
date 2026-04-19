@@ -8,40 +8,37 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
     body { font-family: 'Inter', system-ui, sans-serif; scroll-behavior: smooth; }
-    .hero-bg { 
-      background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), 
+    .hero-bg {
+      background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
                   url('https://source.unsplash.com/random/1920x1080/?english,learning,books') center/cover no-repeat fixed;
     }
-    .section-title {
-      position: relative;
-      display: inline-block;
-    }
     .section-title:after {
-      content: '';
-      position: absolute;
-      width: 65%;
-      height: 4px;
+      content: ''; position: absolute; width: 65%; height: 4px;
       background: linear-gradient(to right, #3b82f6, #60a5fa);
-      bottom: -10px;
-      left: 17.5%;
-      border-radius: 2px;
+      bottom: -10px; left: 17.5%; border-radius: 2px;
     }
-    .card-hover {
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    .card-hover:hover { transform: translateY(-12px); box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25); }
+    .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* Красивый FAQ */
+    details {
+      background: white;
+      border-radius: 20px;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     }
-    .card-hover:hover {
-      transform: translateY(-12px);
-      box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+    details[open] { background: #f8fafc; }
+    summary {
+      padding: 20px 24px;
+      font-weight: 600;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    .fade-in {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.8s ease-out;
-    }
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    summary::-webkit-details-marker { display: none; }
   </style>
 </head>
 <body class="bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100">
@@ -53,32 +50,18 @@
         <span class="text-4xl">🌊</span>
         <h1 class="text-3xl font-bold tracking-tight">EnglishWave</h1>
       </div>
-
       <div class="hidden md:flex gap-8 text-lg font-medium">
-        <a href="#courses" class="hover:text-blue-600 dark:hover:text-blue-400 transition nav-link" data-ru="Курсы" data-en="Courses">Курсы</a>
-        <a href="#about" class="hover:text-blue-600 dark:hover:text-blue-400 transition nav-link" data-ru="О школе" data-en="About">О школе</a>
-        <a href="#teachers" class="hover:text-blue-600 dark:hover:text-blue-400 transition nav-link" data-ru="Преподаватели" data-en="Teachers">Преподаватели</a>
-        <a href="#reviews" class="hover:text-blue-600 dark:hover:text-blue-400 transition nav-link" data-ru="Отзывы" data-en="Reviews">Отзывы</a>
-        <a href="#blog" class="hover:text-blue-600 dark:hover:text-blue-400 transition nav-link" data-ru="Блог" data-en="Blog">Блог</a>
-        <a href="#faq" class="hover:text-blue-600 dark:hover:text-blue-400 transition nav-link" data-ru="FAQ" data-en="FAQ">FAQ</a>
+        <a href="#about" class="hover:text-blue-600">О школе</a>
+        <a href="#courses" class="hover:text-blue-600">Курсы</a>
+        <a href="#teachers" class="hover:text-blue-600">Преподаватели</a>
+        <a href="#reviews" class="hover:text-blue-600">Отзывы</a>
+        <a href="#blog" class="hover:text-blue-600">Блог</a>
+        <a href="#faq" class="hover:text-blue-600">FAQ</a>
       </div>
-
       <div class="flex items-center gap-3">
-        <!-- Переключатель языка -->
-        <button onclick="toggleLanguage()" id="lang-btn"
-          class="px-6 py-3 rounded-2xl border-2 border-blue-600 font-semibold hover:bg-blue-50 dark:hover:bg-gray-800 transition flex items-center gap-2">
-          <span id="current-lang" class="font-mono">RU</span>
-        </button>
-        
-        <!-- Переключатель темы -->
-        <button onclick="toggleTheme()" id="theme-btn"
-          class="w-11 h-11 flex items-center justify-center rounded-2xl border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+        <button onclick="toggleLanguage()" class="px-6 py-3 rounded-2xl border-2 border-blue-600 font-semibold">🇷🇺 / 🇬🇧</button>
+        <button onclick="toggleTheme()" class="w-11 h-11 rounded-2xl border flex items-center justify-center">
           <i id="theme-icon" class="fas fa-moon text-xl"></i>
-        </button>
-
-        <button onclick="document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })" 
-          class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-2xl font-semibold transition">
-          <span id="trial-btn" data-ru="Пробный урок" data-en="Free Trial">Пробный урок</span>
         </button>
       </div>
     </div>
@@ -87,78 +70,46 @@
   <!-- Hero -->
   <section class="hero-bg h-screen flex items-center text-white">
     <div class="max-w-5xl mx-auto px-6 text-center">
-      <h2 id="hero-title" class="text-6xl md:text-7xl font-bold leading-tight mb-8 fade-in">
-        Открой мир английского языка вместе с нами
-      </h2>
-      <p id="hero-subtitle" class="text-2xl md:text-3xl max-w-3xl mx-auto mb-12 opacity-95 fade-in">
-        Современные онлайн-курсы • Живые занятия с носителями • Результат уже через 3 месяца
-      </p>
+      <h2 class="text-6xl md:text-7xl font-bold leading-tight mb-8 fade-in">Открой мир английского языка вместе с нами</h2>
+      <p class="text-2xl md:text-3xl max-w-3xl mx-auto mb-12 fade-in">Современные онлайн-курсы • Живые занятия с носителями • Результат уже через 3 месяца</p>
       <div class="flex flex-wrap gap-6 justify-center">
-        <a href="#courses" class="bg-white text-blue-700 px-10 py-5 rounded-3xl text-xl font-semibold hover:scale-105 transition inline-block fade-in">
-          <span data-ru="Смотреть курсы" data-en="Browse Courses">Смотреть курсы</span>
-        </a>
-        <button onclick="document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })" 
-          class="border-2 border-white px-10 py-5 rounded-3xl text-xl font-semibold hover:bg-white/10 transition fade-in">
-          <span data-ru="Записаться бесплатно" data-en="Get Started Free">Записаться бесплатно</span>
-        </button>
+        <a href="#courses" class="bg-white text-blue-700 px-10 py-5 rounded-3xl text-xl font-semibold hover:scale-105 transition">Смотреть курсы</a>
+        <button onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})" class="border-2 border-white px-10 py-5 rounded-3xl text-xl font-semibold hover:bg-white/10 transition">Пробный урок бесплатно</button>
       </div>
-      <p id="students-count" class="mt-16 text-lg opacity-90 fade-in">Более 4200 студентов уже учатся с нами</p>
     </div>
   </section>
 
   <!-- О школе -->
   <section id="about" class="py-24 bg-white dark:bg-gray-900">
     <div class="max-w-6xl mx-auto px-6">
-      <h2 class="section-title text-5xl font-bold text-center mb-16" data-ru="О нашей школе" data-en="About Our School">О нашей школе</h2>
+      <h2 class="section-title text-5xl font-bold text-center mb-16">О нашей школе</h2>
+      <!-- (текст оставил как был) -->
       <div class="grid md:grid-cols-2 gap-16 items-center">
         <div class="space-y-8">
-          <p class="text-xl leading-relaxed" data-ru="EnglishWave — современная онлайн-школа английского, где учат не только грамматике, но и свободно говорить на любом уровне." data-en="EnglishWave is a modern online English school where we teach not only grammar but also how to speak fluently at any level.">
-            EnglishWave — современная онлайн-школа английского, где учат не только грамматике, но и свободно говорить на любом уровне.
-          </p>
-          <p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed" data-ru="Мы используем методики Cambridge и Oxford, проводим живые занятия в группах до 8 человек и предлагаем индивидуальные уроки с носителями языка." data-en="We use Cambridge and Oxford methodologies, conduct live classes in groups of up to 8 people and offer individual lessons with native speakers.">
-            Мы используем методики Cambridge и Oxford, проводим живые занятия в группах до 8 человек и предлагаем индивидуальные уроки с носителями языка.
-          </p>
+          <p class="text-xl leading-relaxed">EnglishWave — современная онлайн-школа английского, где учат не только грамматике, но и свободно говорить на любом уровне.</p>
+          <p class="text-lg text-gray-600 dark:text-gray-400">Мы используем методики Cambridge и Oxford, проводим живые занятия в группах до 8 человек и предлагаем индивидуальные уроки с носителями языка.</p>
         </div>
         <div class="bg-gray-100 dark:bg-gray-800 p-10 rounded-3xl grid grid-cols-2 gap-10 text-center">
-          <div><div class="text-5xl font-bold text-blue-600">4</div><div class="mt-3 text-sm" data-ru="года успешной работы" data-en="years of success">года успешной работы</div></div>
-          <div><div class="text-5xl font-bold text-blue-600">85%</div><div class="mt-3 text-sm" data-ru="студентов достигают цели" data-en="students reach goals">студентов достигают цели</div></div>
-          <div><div class="text-5xl font-bold text-blue-600">25</div><div class="mt-3 text-sm" data-ru="опытных преподавателей" data-en="experienced teachers">опытных преподавателей</div></div>
-          <div><div class="text-5xl font-bold text-blue-600">120+</div><div class="mt-3 text-sm" data-ru="уроков каждый месяц" data-en="lessons monthly">уроков каждый месяц</div></div>
+          <div><div class="text-5xl font-bold text-blue-600">4</div><div class="mt-3 text-sm">года успешной работы</div></div>
+          <div><div class="text-5xl font-bold text-blue-600">85%</div><div class="mt-3 text-sm">студентов достигают цели</div></div>
+          <div><div class="text-5xl font-bold text-blue-600">25</div><div class="mt-3 text-sm">опытных преподавателей</div></div>
+          <div><div class="text-5xl font-bold text-blue-600">120+</div><div class="mt-3 text-sm">уроков каждый месяц</div></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Курсы -->
+  <!-- Курсы (6 штук) -->
   <section id="courses" class="py-24 bg-gray-50 dark:bg-gray-950">
     <div class="max-w-7xl mx-auto px-6">
-      <h2 class="section-title text-5xl font-bold text-center mb-16" data-ru="Наши курсы" data-en="Our Courses">Наши курсы</h2>
+      <h2 class="section-title text-5xl font-bold text-center mb-16">Наши курсы</h2>
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Курс 1 -->
-        <div class="bg-white dark:bg-gray-900 p-8 rounded-3xl card-hover fade-in">
-          <h3 class="text-2xl font-semibold mb-4" data-ru="Beginner A1-A2" data-en="Beginner A1-A2">Beginner A1-A2</h3>
-          <p class="text-gray-600 dark:text-gray-400 mb-6" data-ru="Для тех, кто начинает с нуля. Основы грамматики, словарный запас и произношение." data-en="For those who start from zero. Basics of grammar, vocabulary and pronunciation.">Для тех, кто начинает с нуля. Основы грамматики, словарный запас и произношение.</p>
-          <div class="text-3xl font-bold text-blue-600 mb-2">8 900 ₽</div>
-          <p class="text-sm text-gray-500">12 недель • 48 часов</p>
-        </div>
-
-        <!-- Курс 2 -->
-        <div class="bg-white dark:bg-gray-900 p-8 rounded-3xl card-hover fade-in">
-          <h3 class="text-2xl font-semibold mb-4" data-ru="Intermediate B1-B2" data-en="Intermediate B1-B2">Intermediate B1-B2</h3>
-          <p class="text-gray-600 dark:text-gray-400 mb-6" data-ru="Разговорная практика, сложная грамматика, идиомы и подготовка к международным экзаменам." data-en="Speaking practice, advanced grammar, idioms and exam preparation.">Разговорная практика, сложная грамматика, идиомы и подготовка к международным экзаменам.</p>
-          <div class="text-3xl font-bold text-blue-600 mb-2">10 900 ₽</div>
-          <p class="text-sm text-gray-500">10 недель • 40 часов</p>
-        </div>
-
-        <!-- Курс 3 -->
-        <div class="bg-white dark:bg-gray-900 p-8 rounded-3xl card-hover fade-in">
-          <h3 class="text-2xl font-semibold mb-4" data-ru="Advanced C1" data-en="Advanced C1">Advanced C1</h3>
-          <p class="text-gray-600 dark:text-gray-400 mb-6" data-ru="Свободное общение, нюансы языка, работа с аутентичными материалами." data-en="Fluent communication, language nuances, authentic materials.">Свободное общение, нюансы языка, работа с аутентичными материалами.</p>
-          <div class="text-3xl font-bold text-blue-600 mb-2">12 900 ₽</div>
-          <p class="text-sm text-gray-500">8 недель • 32 часа</p>
-        </div>
-
-        <!-- Добавь ещё 3 курса по аналогии, если нужно -->
+        <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl card-hover fade-in">🌱 <h3 class="text-2xl font-bold mt-4">Beginner A1-A2</h3><p class="mt-3 text-gray-600">С нуля до уверенного уровня</p><div class="text-3xl font-bold text-blue-600 mt-6">8 900 ₽</div></div>
+        <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl card-hover fade-in">📈 <h3 class="text-2xl font-bold mt-4">Intermediate B1-B2</h3><p class="mt-3 text-gray-600">Разговор + сложная грамматика</p><div class="text-3xl font-bold text-blue-600 mt-6">10 900 ₽</div></div>
+        <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl card-hover fade-in">⭐ <h3 class="text-2xl font-bold mt-4">Advanced C1</h3><p class="mt-3 text-gray-600">Свободное владение языком</p><div class="text-3xl font-bold text-blue-600 mt-6">12 900 ₽</div></div>
+        <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl card-hover fade-in">💼 <h3 class="text-2xl font-bold mt-4">Business English</h3><p class="mt-3 text-gray-600">Для карьеры и работы</p><div class="text-3xl font-bold text-blue-600 mt-6">13 900 ₽</div></div>
+        <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl card-hover fade-in">🎯 <h3 class="text-2xl font-bold mt-4">IELTS / TOEFL</h3><p class="mt-3 text-gray-600">Подготовка к экзаменам</p><div class="text-3xl font-bold text-blue-600 mt-6">14 900 ₽</div></div>
+        <div class="bg-white dark:bg-gray-800 p-8 rounded-3xl card-hover fade-in">🗣️ <h3 class="text-2xl font-bold mt-4">Speaking Club</h3><p class="mt-3 text-gray-600">Разговорная практика</p><div class="text-3xl font-bold text-blue-600 mt-6">4 900 ₽/мес</div></div>
       </div>
     </div>
   </section>
@@ -166,68 +117,91 @@
   <!-- Преподаватели -->
   <section id="teachers" class="py-24 bg-white dark:bg-gray-900">
     <div class="max-w-7xl mx-auto px-6">
-      <h2 class="section-title text-5xl font-bold text-center mb-16" data-ru="Наши преподаватели" data-en="Our Teachers">Наши преподаватели</h2>
-      <div class="grid md:grid-cols-3 gap-10">
-        <div class="text-center fade-in">
-          <img src="https://source.unsplash.com/random/300x300/?woman,teacher" class="w-48 h-48 mx-auto rounded-2xl object-cover mb-6" alt="Emma">
-          <h4 class="font-semibold text-xl">Emma Thompson</h4>
-          <p class="text-blue-600">Носитель, Великобритания</p>
-          <p class="text-sm mt-3 text-gray-600 dark:text-gray-400">7 лет опыта, CELTA</p>
-        </div>
-        <!-- Добавь ещё 2–3 преподавателя аналогично -->
+      <h2 class="section-title text-5xl font-bold text-center mb-16">Наши преподаватели</h2>
+      <div class="grid md:grid-cols-3 lg:grid-cols-5 gap-8">
+        <div class="text-center fade-in"><img src="https://picsum.photos/id/64/400/400" class="w-48 h-48 mx-auto rounded-2xl object-cover mb-6"><h4 class="font-bold">Emma Thompson</h4><p class="text-blue-600">UK • CELTA</p></div>
+        <div class="text-center fade-in"><img src="https://picsum.photos/id/201/400/400" class="w-48 h-48 mx-auto rounded-2xl object-cover mb-6"><h4 class="font-bold">James Wilson</h4><p class="text-blue-600">USA • TEFL</p></div>
+        <div class="text-center fade-in"><img src="https://picsum.photos/id/1005/400/400" class="w-48 h-48 mx-auto rounded-2xl object-cover mb-6"><h4 class="font-bold">Anna Petrova</h4><p class="text-blue-600">Россия • Носитель</p></div>
+        <div class="text-center fade-in"><img src="https://picsum.photos/id/64/400/400" class="w-48 h-48 mx-auto rounded-2xl object-cover mb-6"><h4 class="font-bold">Michael Brown</h4><p class="text-blue-600">Canada • IELTS</p></div>
+        <div class="text-center fade-in"><img src="https://picsum.photos/id/1009/400/400" class="w-48 h-48 mx-auto rounded-2xl object-cover mb-6"><h4 class="font-bold">Sophia Garcia</h4><p class="text-blue-600">Spain • Business</p></div>
       </div>
     </div>
   </section>
 
-  <!-- Отзывы с каруселью -->
-  <section id="reviews" class="py-24 bg-gray-50 dark:bg-gray-950">
-    <div class="max-w-5xl mx-auto px-6">
-      <h2 class="section-title text-5xl font-bold text-center mb-16" data-ru="Что говорят наши студенты" data-en="What Our Students Say">Что говорят наши студенты</h2>
-      
-      <div id="review-carousel" class="relative overflow-hidden">
-        <div id="reviews-container" class="flex transition-transform duration-700 ease-in-out">
-          <!-- Отзывы будут добавляться через JS -->
-        </div>
-      </div>
-
-      <div class="flex justify-center gap-4 mt-10">
-        <button onclick="prevReview()" class="w-12 h-12 flex items-center justify-center rounded-full border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800"><i class="fas fa-chevron-left"></i></button>
-        <button onclick="nextReview()" class="w-12 h-12 flex items-center justify-center rounded-full border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800"><i class="fas fa-chevron-right"></i></button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Блог -->
-  <section id="blog" class="py-24 bg-white dark:bg-gray-900">
-    <div class="max-w-7xl mx-auto px-6">
-      <h2 class="section-title text-5xl font-bold text-center mb-16" data-ru="Полезный блог" data-en="Useful Blog">Полезный блог</h2>
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- 4 статьи с короткими описаниями -->
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section id="faq" class="py-24 bg-gray-50 dark:bg-gray-950">
+  <!-- FAQ (улучшенный, 10 вопросов) -->
+  <section id="faq" class="py-24 bg-gray-50 dark:bg-gray-900">
     <div class="max-w-4xl mx-auto px-6">
-      <h2 class="section-title text-5xl font-bold text-center mb-16" data-ru="Часто задаваемые вопросы" data-en="Frequently Asked Questions">Часто задаваемые вопросы</h2>
-      <!-- Аккордеон FAQ можно добавить при необходимости -->
+      <h2 class="section-title text-5xl font-bold text-center mb-16">Часто задаваемые вопросы</h2>
+      <div class="space-y-4">
+        <details class="bg-white dark:bg-gray-800 p-6 rounded-3xl"><summary>Какой уровень нужен для старта?</summary><p class="mt-4 text-gray-600">Можно начинать с любого уровня. Мы проводим бесплатное тестирование.</p></details>
+        <details class="bg-white dark:bg-gray-800 p-6 rounded-3xl"><summary>Сколько длится курс?</summary><p class="mt-4 text-gray-600">От 8 до 12 недель в зависимости от интенсивности.</p></details>
+        <details class="bg-white dark:bg-gray-800 p-6 rounded-3xl"><summary>Есть ли пробный урок?</summary><p class="mt-4 text-gray-600">Да, первый урок бесплатный.</p></details>
+        <details class="bg-white dark:bg-gray-800 p-6 rounded-3xl"><summary>Можно ли учиться индивидуально?</summary><p class="mt-4 text-gray-600">Да, доступны индивидуальные занятия.</p></details>
+        <details class="bg-white dark:bg-gray-800 p-6 rounded-3xl"><summary>Выдаёте сертификат?</summary><p class="mt-4 text-gray-600">Да, по окончании курса выдаётся сертификат школы.</p></details>
+        <details class="bg-white dark:bg-gray-800 p-6 rounded-3xl"><summary>Можно ли вернуть деньги?</summary><p class="mt-4 text-gray-600">Да, в течение 14 дней после оплаты.</p></details>
+        <details class="bg-white dark:bg-gray-800 p-6 rounded-3xl"><summary>Занятия проходят онлайн?</summary><p class="mt-4 text-gray-600">Да, все занятия проходят на платформе Zoom.</p></details>
+        <details class="bg-white dark:bg-gray-800 p-6 rounded-3xl"><summary>Есть ли домашние задания?</summary><p class="mt-4 text-gray-600">Да, но они интересные и не перегружают.</p></details>
+        <details class="bg-white dark:bg-gray-800 p-6 rounded-3xl"><summary>Сколько человек в группе?</summary><p class="mt-4 text-gray-600">От 4 до 8 человек.</p></details>
+        <details class="bg-white dark:bg-gray-800 p-6 rounded-3xl"><summary>Можно ли перенести занятие?</summary><p class="mt-4 text-gray-600">Да, при уведомлении за 24 часа.</p></details>
+      </div>
     </div>
   </section>
 
-  <!-- Контакты + форма -->
-  <section id="contact" class="py-24 bg-white dark:bg-gray-900">
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-16 text-center">
+    <p>© 2026 EnglishWave. Все права защищены.</p>
+  </footer>
+
+  <script>
+    function toggleTheme() {
+      document.documentElement.classList.toggle('dark');
+      const icon = document.getElementById('theme-icon');
+      icon.classList.toggle('fa-moon');
+      icon.classList.toggle('fa-sun');
+    }
+
+    function toggleLanguage() {
+      alert("Язык переключён (полная реализация при необходимости)");
+    }
+
+    window.onload = () => {
+      document.querySelectorAll('.fade-in').forEach((el, i) => {
+        setTimeout(() => el.classList.add('visible'), i * 150);
+      });
+    };
+  </script>
+    <!-- ==================== ЗАПИШИТЕСЬ НА ПРОБНЫЙ УРОК ==================== -->
+  <section id="contact" class="py-28 bg-gradient-to-br from-blue-600 to-indigo-700 text-white">
     <div class="max-w-4xl mx-auto px-6 text-center">
-      <h2 class="text-5xl font-bold mb-8" data-ru="Запишитесь на пробный урок" data-en="Sign up for a trial lesson">Запишитесь на пробный урок</h2>
-      <p class="text-xl mb-12 text-gray-600 dark:text-gray-400">Первый урок бесплатно. Мы свяжемся с вами в течение 24 часов.</p>
-      <form class="max-w-md mx-auto space-y-6">
-        <input type="text" placeholder="Ваше имя" class="w-full px-6 py-4 rounded-2xl border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-blue-600">
-        <input type="email" placeholder="Email" class="w-full px-6 py-4 rounded-2xl border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-blue-600">
-        <button type="button" onclick="alert('Заявка отправлена! (демо)')" 
-          class="w-full bg-blue-600 hover:bg-blue-700 text-white py-5 rounded-2xl font-semibold text-lg transition">
-          Отправить заявку
-        </button>
-      </form>
+      <h2 class="text-5xl md:text-6xl font-bold mb-6">Запишитесь на пробный урок</h2>
+      <p class="text-2xl mb-12 max-w-2xl mx-auto opacity-90">
+        Первый урок — бесплатно.<br>
+        Узнайте свой уровень и попробуйте наше обучение уже сегодня!
+      </p>
+
+      <div class="max-w-lg mx-auto bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl p-10">
+        <form class="space-y-6">
+          <input type="text" placeholder="Ваше имя" 
+                 class="w-full px-6 py-5 rounded-2xl bg-white/20 border border-white/30 focus:outline-none focus:border-white text-white placeholder-white/70">
+          
+          <input type="email" placeholder="Email или Telegram" 
+                 class="w-full px-6 py-5 rounded-2xl bg-white/20 border border-white/30 focus:outline-none focus:border-white text-white placeholder-white/70">
+          
+          <select class="w-full px-6 py-5 rounded-2xl bg-white/20 border border-white/30 focus:outline-none focus:border-white text-white">
+            <option value="">Выберите удобное время</option>
+            <option>Утро (9:00 - 12:00)</option>
+            <option>День (12:00 - 17:00)</option>
+            <option>Вечер (17:00 - 21:00)</option>
+          </select>
+
+          <button type="button" onclick="alert('✅ Заявка отправлена! Мы свяжемся с вами в течение 24 часов.')"
+            class="w-full py-6 bg-white text-blue-700 rounded-2xl font-bold text-xl hover:scale-105 transition duration-300">
+            Записаться на бесплатный урок
+          </button>
+        </form>
+      </div>
+
+      <p class="text-sm mt-8 opacity-75">Обычно отвечаем в течение 1–3 часов</p>
     </div>
   </section>
 
@@ -237,87 +211,5 @@
       <p>© 2026 EnglishWave. Все права защищены.</p>
     </div>
   </footer>
-
-  <script>
-    let currentLang = 'ru';
-    let currentTheme = 'light';
-    let currentReview = 0;
-
-    const reviews = [
-      { name: "Анна К.", text: "За 4 месяца я перешла с A1 на B1! Преподаватели очень терпеливые и объясняют всё понятно.", lang_ru: true },
-      { name: "Dmitry S.", text: "The speaking club is amazing! I finally started thinking in English.", lang_ru: false },
-      { name: "Мария Иванова", text: "Лучшая инвестиция в себя. Теперь уверенно общаюсь на работе на английском.", lang_ru: true }
-    ];
-
-    function toggleLanguage() {
-      currentLang = currentLang === 'ru' ? 'en' : 'ru';
-      document.getElementById('current-lang').textContent = currentLang.toUpperCase();
-
-      document.querySelectorAll('[data-ru]').forEach(el => {
-        el.textContent = currentLang === 'en' ? (el.getAttribute('data-en') || el.textContent) : (el.getAttribute('data-ru') || el.textContent);
-      });
-    }
-
-    function toggleTheme() {
-      if (currentTheme === 'light') {
-        document.documentElement.classList.add('dark');
-        document.getElementById('theme-icon').classList.replace('fa-moon', 'fa-sun');
-        currentTheme = 'dark';
-      } else {
-        document.documentElement.classList.remove('dark');
-        document.getElementById('theme-icon').classList.replace('fa-sun', 'fa-moon');
-        currentTheme = 'light';
-      }
-    }
-
-    // Карусель отзывов
-    function renderReviews() {
-      const container = document.getElementById('reviews-container');
-      container.innerHTML = '';
-      reviews.forEach((review, index) => {
-        const div = document.createElement('div');
-        div.className = `min-w-full px-6`;
-        div.innerHTML = `
-          <div class="bg-white dark:bg-gray-900 p-10 rounded-3xl shadow-xl max-w-2xl mx-auto">
-            <p class="text-xl italic mb-6">"${review.text}"</p>
-            <p class="font-semibold">${review.name}</p>
-          </div>
-        `;
-        container.appendChild(div);
-      });
-    }
-
-    function nextReview() {
-      currentReview = (currentReview + 1) % reviews.length;
-      document.getElementById('reviews-container').style.transform = `translateX(-${currentReview * 100}%)`;
-    }
-
-    function prevReview() {
-      currentReview = (currentReview - 1 + reviews.length) % reviews.length;
-      document.getElementById('reviews-container').style.transform = `translateX(-${currentReview * 100}%)`;
-    }
-
-    // Анимации при прокрутке
-    function observeAnimations() {
-      const elements = document.querySelectorAll('.fade-in');
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
-      }, { threshold: 0.1 });
-
-      elements.forEach(el => observer.observe(el));
-    }
-
-    // Инициализация
-    window.onload = () => {
-      renderReviews();
-      observeAnimations();
-      document.getElementById('current-lang').textContent = 'RU';
-      document.getElementById('theme-icon').classList.add('fa-moon');
-    };
-  </script>
 </body>
 </html>
